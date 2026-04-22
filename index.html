@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Для тебе ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      color: #2b2b2b;
+
+      background:
+              radial-gradient(circle at 25% 30%, rgba(255, 200, 220, 0.4), transparent 40%),
+              radial-gradient(circle at 75% 70%, rgba(200, 230, 255, 0.4), transparent 40%),
+              linear-gradient(135deg, #f5efe6, #e8dccc, #f3e5d8);
+    }
+
+    body {
+      background-size: 200% 200%;
+      animation: bgMove 15s ease infinite;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+
+      background-image:
+              radial-gradient(circle, #ffb3c1 2px, transparent 2px),
+              radial-gradient(circle, #ffd166 2px, transparent 2px),
+              radial-gradient(circle, #9bf6ff 2px, transparent 2px),
+              radial-gradient(circle, #caffbf 2px, transparent 2px);
+
+      background-size: 80px 80px;
+      animation: confettiMove 20s linear infinite;
+      opacity: 0.4;
+    }
+
+    @keyframes confettiMove {
+      from {
+        background-position: 0 0, 20px 40px, 40px 20px, 60px 60px;
+      }
+      to {
+        background-position: 0 800px, 20px 840px, 40px 820px, 60px 860px;
+      }
+    }
+
+    .text, p {
+      text-align: left;
+    }
+
+    .text, p {
+      max-width: 600px;
+      margin: 0 auto;
+      white-space: pre-line;
+      line-height: 1.8;
+    }
+
+    /* Слайди */
+    .section {
+      display: none;
+      min-height: 100vh; /* було height */
+      padding: 40px;
+      box-sizing: border-box;
+      overflow-y: auto; /* додаємо */
+    }
+
+    .section {
+      display: none;
+    }
+
+    .active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Центр (для першого екрану) */
+    .center {
+      align-items: center;
+      text-align: center;
+    }
+
+    .center h1 {
+      width: 100%;
+    }
+
+    .center button {
+      align-self: center;
+    }
+
+    /* Кнопка */
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background: lightskyblue;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+
+      width: auto;          /* головне */
+      max-width: 250px;     /* щоб не розтягувалась */
+      display: inline-block;
+    }
+
+    .center button {
+      align-self: center;
+    }
+    /* Заголовок */
+    .title {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    /* Підзаголовок */
+    .subtitle {
+      font-size: 16px;
+      opacity: 0.7;
+      margin-bottom: 30px;
+    }
+
+    /* Контент (фото + текст) */
+    .content {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    /* Фото зліва */
+    .images
+    {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .images img {
+      width: 250px;
+      border-radius: 15px;
+      transition: transform 0.3s ease; /* плавність */
+      cursor: pointer;
+    }
+
+    .images img {
+      margin-bottom: 20px;
+    }
+
+    .images img:hover {
+      transform: scale(1.2); /* збільшення */
+    }
+
+    .images {
+      overflow: hidden;
+    }
+
+    /* Текст справа */
+    .text {
+      max-width: 500px;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    /* Стрілки */
+    .nav {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .arrow {
+      background: lightskyblue;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    /* Меню */
+    .menu-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .menu-item:nth-child(n+6) {
+      display: none;
+    }
+
+    .menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      transition: 0.3s;
+    }
+
+    .menu {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #111;
+      padding-top: 60px;
+      transition: 0.3s;
+    }
+
+    .menu a {
+      display: block;
+      padding: 15px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .menu.open {
+      left: 0;
+    }
+
+    /* БАЗОВИЙ СТИЛЬ (фото зліва, текст справа) */
+    .content {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    /* ВАРІАНТ: текст по центру під фото */
+    .content.column {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ВАРІАНТ: фото справа, текст зліва (для різноманіття) */
+    .content.reverse {
+      flex-direction: row-reverse;
+    }
+
+    /* ТЕКСТ */
+    .text {
+      max-width: 500px;
+      white-space: pre-line;
+      line-height: 1.7;
+    }
+
+    /* ЦЕНТРОВАНИЙ ТЕКСТ */
+    .center-text {
+      text-align: center;
+      max-width: 600px;
+    }
+
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.9;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(720deg); }
+    }
+
+    .content {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .images {
+      display: flex;
+      gap: 10px;
+    }
+
+    .images img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .images {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .images img {
+        max-width: 100%;
+      }
+
+      .text {
+        width: 100%;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- ☰ меню -->
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<div class="menu" id="menu">
+  <a onclick="goTo(0)">запуск ✈</a>
+  <a onclick="goTo(1)">привітання 🎂 ❤</a>
+  <a onclick="goTo(2)">перша зустріч 💘</a>
+  <a onclick="goTo(3)">перша поїздка 🛳️</a>
+  <a onclick="goTo(4)">фото цінних моментів </a>
+  <a onclick="goTo(5)">перша подорож 🧳</a>
+  <a onclick="goTo(6)">найромантичніші спогади</a>
+  <a onclick="goTo(7)">знайомство з батьками</a>
+  <a onclick="goTo(8)">далі буде...</a>
+</div>
+
+
+
+<!-- 1 СЛАЙД -->
+<div class="section center">
+  <h1>для тебе, з любов'ю ❤️</h1>
+  <button onclick="next()">почати подорож</button>
+</div>
+
+<!-- 2 СЛАЙД -->
+<div class="section center">
+  <h1>з твоїм 22 днем народження ❤️</h1>
+
+  <p>
+    З Днем народження, мій Бозульчик ❤
+
+    Якщо чесно… я довго думала, як це все написати. Бо ти для мене — це вже не просто “людина”, не просто “стосунки”. Це щось набагато більше і глибше
+
+    Я не завжди вмію правильно показувати свої емоції. Іноді можу щось сказати різко, десь пожартувати не в тему або навпаки — зробити вигляд, що мені все одно. Але насправді це зовсім не так
+    Навіть якщо ти цього не бачиш. Навіть якщо я цього прямо не кажу
+    Я хочу, щоб у тебе все виходило. Щоб ти досягав того, чого хочеш. Щоб ти ніколи не сумнівався в собі — бо ти реально можеш більше, ніж сам думаєш
+
+    З тобою я відчуваю себе спокійно. І це, напевно, найцінніше. Бо це не про якісь гучні слова, а про відчуття всередині — коли просто добре поруч з людиною
+    Мені дуже важливо все, що ти робиш для мене. Особливо ці дрібниці…, те як ти запам’ятовуєш, що для мене важливо. Це не просто “жест” — це про те, що ти слухаєш і чуєш мене
+
+    Так не без сварок і ревнощів
+    Але навіть в цьому є щось наше
+    Я вдячна за все, що між нами є. За всі моменти — і легкі, і складні. Бо саме вони зробили нас такими, які ми є зараз
+
+    Я щиро бажаю тобі, щоб у тебе все виходило. Щоб ти не сумнівався в собі і впевнено йшов вперед. І щоб ти був щасливий — по-справжньому
+
+    І просто знай: я поруч, готова вислухати, підтримати та дати пораду
+
+    З Днем народження тебе ❤
+    Твоя Бозулька
+
+
+
+
+  </p>
+
+</div>
+
+
+
+<!-- 3 СЛАЙД -->
+<div class="section">
+  <div class="title">наша перша зустріч 💕</div>
+  <div class="subtitle">Все почалося саме тут 30.04.2025 </div>
+
+
+  <div class="content">
+    <div class="images">
+      <img src="images/erse_treffen.jpg">
+      <img src="images/insta1.jpg">
+    </div>
+
+    <div class="text">
+      Взагалі, наша історія почалась доволі несподівано і навіть трохи дивно 😄
+
+      Ти мене шукав, через знайомих, а потім я тебе…
+      і коли я побачила тебе серед переглядів сторіс — я така: стоп… це він!
+      І тоді я ще навіть не думала, що це все так закрутиться
+
+      Я, якщо чесно, не сильно готувалась 😂 (ну і ти тоже)
+      Вийшла просто “як є”, думаючи що це максимум дружня зустріч
+      Я не хотіла давати адресу, тому ми зустрілись просто поруч з домом
+
+      В той день мені так сподовався той вид з заходом сонця…
+      І все було так просто, без напрягу, але вже тоді щось почалося
+
+      І найсмішніше — ти подумав, що я мала дівчинка,
+      а я подумала, що ти якийсь самовлюблений фраерок
+
+    </div>
+  </div>
+
+
+</div>
+
+<!-- 4 СЛАЙД -->
+<div class="section">
+  <div class="title">наша перша поїздка</div>
+  <div class="subtitle">04.05.2025</div>
+
+
+  <div class="content">
+    <div class="images">
+      <img src="images/2.jpg">
+
+    </div>
+
+    <div class="text">
+      перше фото в нашій (твоїй) машині
+    </div>
+
+
+    <div class="content">
+      <div class="images">
+        <img src="images/1.jpg">
+        <img src="images/3.jpg">
+      </div>
+
+      <div class="text">
+        Ми поїхали разом з твоїми друзями, і я чомусь думала, що я там просто “додаток”
+        А потім ти розповів, що ти поїхав туди насправді заради мене
+
+        Просто щоб не було неловко — покликав ще й друзів
+        І це було дуже… душевно і милоо
+
+        Я б додала сюди ще більше фотографій, але все одне місце не поміститься
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- 5 СЛАЙД -->
+<div class="section">
+  <div class="title">цінні моменти та приємнощі</div>
+  <div class="subtitle">20.05.2025 -----> 15.06.2025 ----->  25.06.25 </div>
+
+  <div class="content">
+    <div class="images">
+      <img src="images/berg.jpg">
+      <img src="images/sannia.jpg">
+      <img src="images/essen1.jpg">
+      <img src="images/toy.jpg">
+      <img src="images/hearz.jpg">
+      <img src="images/lust.jpg">
+
+    </div>
+
+    <div class="text">
+  Підтримка у найважливіші моменти - це неймовірне відчуття, яке не можна описати словами
+
+    </div>
+  </div>
+
+
+</div>
+
+<!-- 6 СЛАЙД -->
+<div class="section">
+  <div class="title">перша подорож 🧳</div>
+  <div class="subtitle"> Наша перша спільна поїздка — і одразу така особлива</div>
+
+
+  <div class="content">
+    <div class="images">
+      <img src="images/schweiz2.jpg">
+    </div>
+
+  </div>
+
+  <div class="content">
+    <div class="text">
+
+      "Хай це буде символом наших відносин,
+      поки воно буде там стояти до тих пір ми будем разом "
+      D&S ❤️
+
+      cлова, які я ще довго не забуду
+
+
+    </div>
+
+    <div class="images">
+      <img src="images/us0.jpg">
+    </div>
+
+
+  </div>
+
+  <div class="content">
+
+    <div class="text">
+
+      Ми потрапили під сильний дощ і сховались під якимось дивним навісом.
+
+      Навколо всі сміялись, були мокрі, але щасливі.
+
+      І ми теж стояли і сміялись разом.
+
+      Дуже простий момент… але один з найтепліших.
+
+    </div>
+
+    <div class="images">
+      <img src="images/us1.jpg">
+      <img src="images/you.jpg">
+      <img src="images/you_schweiz.jpg">
+
+
+    </div>
+
+
+  </div>
+
+  <div class="content">
+
+    <div class="text">
+      15.08.2025
+
+      Ну я думаю ти розумієш, яка подія тут була
+
+    </div>
+
+    <div class="images">
+      <img src="images/date.jpg">
+
+    </div>
+
+
+  </div>
+
+
+
+</div>
+
+<!-- 7 СЛАЙД -->
+<div class="section">
+  <div class="title">найромантичніші спогади</div>
+  <div class="subtitle">15.08.2025 -----> 01.11.2025 -----> 01.11.2025</div>
+
+  <div class="text">
+    Перші квіти які були настільки неочікуваними і незабутніми
+  </div>
+
+  <div class="content">
+    <div class="images">
+      <img src="images/flower1.jpg">
+
+    </div>
+
+  </div>
+
+  <div class="content">
+    <div class="images">
+      <img src="images/flower2.jpg">
+
+    </div>
+
+  </div>
+
+
+  <div class="content">
+    <div class="images">
+      <img src="images/flower3(1).jpg">
+      <img src="images/flover3(2).jpg">
+    </div>
+
+    <div class="text">
+
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+<!-- 8 СЛАЙД -->
+<div class="section">
+  <div class="title">знайомство з батьками</div>
+  <div class="subtitle">30.11.2025</div>
+
+  <div class="content">
+    <div class="images">
+      <img src="images/kiss.jpg">
+
+    </div>
+
+  </div>
+
+  <div class="content">
+    <div class="img">
+      <img src="img/parents.jpg">
+      <img src="img/parents23.jpg">
+
+    </div>
+
+  </div>
+
+
+  <div class="text">
+
+    Мій найулюбленіший фотосет зі всіх ракурсів, які тільки можливі 😂
+    (коли навіть не завжди встигала дивитися в камеру хахах)
+
+
+  </div>
+
+  <div class="content">
+    <div class="images">
+      <img src="images/parents1.jpg">
+      <img src="images/parents2.jpg">
+    </div>
+
+  </div>
+
+
+
+</div>
+
+
+
+
+
+<!-- 9 СЛАЙД -->
+<div class="section">
+  <h1>З Днем Народження ❤️</h1>
+  <p>
+
+    І знаєш… після всіх цих моментів, історій і спогадів — хочеться просто ще раз сказати головне.
+
+    Я ще раз вітаю тебе з Днем народження ❤
+
+    Я щиро бажаю тобі, щоб у тебе все складалося так, як ти цього хочеш.
+    Щоб ти не зупинявся, не сумнівався в собі і завжди йшов вперед.
+
+    І щоб у твоєму житті було якомога більше таких моментів, які хочеться згадувати.
+
+    Я дуже рада, що ти є в моєму житті.
+
+    З Днем народження ще раз, Бозульчик ❤
+
+
+
+  </p>
+
+
+</div>
+
+<!-- СТРІЛКИ -->
+<div class="nav">
+  <div class="arrow" onclick="prev()">❮</div>
+  <div class="arrow" onclick="next()">❯</div>
+</div>
+
+
+<script>
+  let current = 0;
+  const sections = document.querySelectorAll('.section');
+
+  function show(i){
+    sections[current].classList.remove('active');
+    current = i;
+    sections[current].classList.add('active');
+
+    // 🎯 тільки потрібні слайди
+    if (current === 1 || current === sections.length - 1) {
+      createConfetti();
+    } else {
+      removeConfetti();
+    }
+  }
+
+  function next(){
+    if(current < sections.length-1) show(current+1);
+  }
+
+  function prev(){
+    if(current > 0) show(current-1);
+  }
+
+  function goTo(i){
+    show(i);
+    toggleMenu();
+  }
+
+  function toggleMenu(){
+    document.getElementById('menu').classList.toggle('open');
+  }
+
+  /* 🎉 КРАСИВІ КОНФЕТІ */
+  function createConfetti() {
+    removeConfetti();
+
+    const colors = ['#ffcad4','#ffd166','#caffbf','#9bf6ff','#bdb2ff','#ffc6ff'];
+    const shapes = ['rect','rect','rect','circle','heart'];
+
+    for (let i = 0; i < 35; i++) {
+      const el = document.createElement('div');
+      el.classList.add('confetti');
+
+      el.style.left = Math.random() * 100 + 'vw';
+
+      const type = shapes[Math.floor(Math.random()*shapes.length)];
+
+      if (type === 'heart') {
+        el.innerHTML = '💖';
+        el.style.fontSize = (18 + Math.random()*14) + 'px';
+      } else {
+        const size = 12 + Math.random()*16;
+
+        el.style.width = size + 'px';
+        el.style.height = size * 0.6 + 'px';
+        el.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+        el.style.borderRadius = type === 'circle' ? '50%' : '3px';
+        el.style.transform = `rotate(${Math.random()*360}deg)`;
+        el.style.boxShadow = '0 3px 8px rgba(0,0,0,0.15)';
+      }
+
+      el.style.animationDuration = (6 + Math.random()*4) + 's';
+      el.style.animationDelay = Math.random() * 3 + 's';
+
+      document.body.appendChild(el);
+    }
+  }
+
+  function removeConfetti() {
+    document.querySelectorAll('.confetti').forEach(el => el.remove());
+  }
+
+  document.querySelectorAll('.menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('menu').classList.remove('open');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('menu');
+    const btn = document.querySelector('.menu-btn');
+
+    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
+  // старт
+  show(0);
+</script>
+</body>
+</html>
+
+
